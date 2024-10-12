@@ -22,7 +22,7 @@ section, summary, time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
+	font: alegreya;
 	vertical-align: baseline;}
 
 article, aside, details, figcaption, figure,
@@ -165,19 +165,19 @@ input, select, textarea {
 	sub {
 		position: relative;
 		top: 0.5em;
-		font-size: 0.8em;
+		-size: 0.8em;
 	}
 
 	sup {
 		position: relative;
 		top: -0.5em;
-		font-size: 0.8em;
+		-size: 0.8em;
 	}
 
 	blockquote {
 		border-left: solid 0.5em #ddd;
 		padding: 1em 0 1em 2em;
-		font-style: italic;
+		-style: italic;
 	}
 
 	p, ul, ol, dl, table {
@@ -223,7 +223,7 @@ input, select, textarea {
 
 	.timestamp {
 		color: rgba(128, 128, 128, 0.75);
-		font-size: 0.8em;
+		-size: 0.8em;
 	}
 
 /* Container */
