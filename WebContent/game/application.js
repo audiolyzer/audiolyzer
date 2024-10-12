@@ -5,7 +5,6 @@ var canvas;
 var gl;
 
 var render_distance = 1000.0;
-var conveyor_length = 6.0;
 
 class Application {
 	constructor(renderer, previous) {
@@ -36,9 +35,6 @@ class Application {
 	    	this.previous = time;
 	    }
     	this.previous = time;
-    	
-    	canvas.width = 854;
-    	canvas.height = 480;
 	    window.requestAnimationFrame((time)=>this.tick(time));
 	}
 	

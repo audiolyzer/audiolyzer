@@ -1,6 +1,5 @@
 html, body {
   margin: 0;
-  height: 100%;
   touch-action: none;
 }
 body {
@@ -8,7 +7,6 @@ body {
 }
 
 #canvas {
-  width: 100%;
-  position: absolute;
+  position: relative;
   bottom: 0;
 }
