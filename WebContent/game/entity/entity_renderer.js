@@ -1,10 +1,8 @@
 class EntityRenderer {
 	
-	constructor(shader, model, entities, previous, index) {
+	constructor(shader, entities) {
 		this.shader = new EntityShader();
 		this.entities = [];
-		this.previous = 0;
-		this.index = 0;
 		
 		var classpath = this;
 		loadJSONResource('game/assets/models/conveyor.json', function(data) {
@@ -15,15 +13,7 @@ class EntityRenderer {
 			var model = new Model(false, vertices, normals, uvs, indices);
 			model.setTexture(Model.loadTexture('texture_conveyor'));
 			
-			classpath.entities.push(new Entity(model, new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0), new Vector3(1.0, 1.0, 1.0)));
-		});
-		
-		loadJSONResource('game/assets/models/product.json', function(data) {
-			var vertices = data.meshes[0].vertices;
-			var normals = data.meshes[0].normals;
-			var uvs = data.meshes[0].texturecoords[0];
-			var indices = [].concat.apply([], data.meshes[0].faces);
-			classpath.model = new Model(false, vertices, normals, uvs, indices);
+			classpath.entities.push(new Entity(model, new Vector3(0.0, 0.0, -5.0), new Vector3(0.0, 0.0, 0.0), new Vector3(1.0, 1.0, 1.0)));
 		});
 	}
 	

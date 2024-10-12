@@ -6,7 +6,7 @@ var view;
 class Renderer {
 	
 	constructor(entity_renderer) {
-//		this.entity_renderer = new EntityRenderer();
+		this.entity_renderer = new EntityRenderer();
 		skycolour = new Vector3(66.0/255.0, 133.0/255.0, 244.0/255.0);
 	}
 	
@@ -23,6 +23,6 @@ class Renderer {
 	
 	render(time) {
 		this.prepare();
-//		this.entity_renderer.render(time);
+		this.entity_renderer.render(time);
 	}
 }

@@ -1,7 +1,7 @@
 class Spectator {
 	
 	constructor(position, rotation, seperation, moving, x, y, looking) {
-		this.position = new Vector3(0.0, 0.0, 5.0);
+		this.position = new Vector3(0.0, 0.0, 0.0);
 		this.rotation = new Vector3(0.0, 0.0, 0.0);
 		this.looking = false;
 		this.zooming = false;
@@ -47,10 +47,6 @@ class Spectator {
 			this.looking = false;
 			this.moving = false;
 		});
-	}
-	
-	tick() {
-		
 	}
 	
 	getRay(x, y) {

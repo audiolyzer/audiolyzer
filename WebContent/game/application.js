@@ -28,7 +28,6 @@ class Application {
 	    } else {
 	    	gl.viewport(0, 0, canvas.width, canvas.height);
     		this.renderer.render(time/1000.0);
-    		spectator.tick();
 	    }
     	if(this.previous != null) {
     		framerate = 1000.0 / (time - this.previous);

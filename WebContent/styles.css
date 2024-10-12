@@ -1,5 +1,5 @@
 html, body {
-  margin: 0;
+  height: 65%;
   touch-action: none;
 }
 body {
@@ -7,6 +7,5 @@ body {
 }
 
 #canvas {
-  position: relative;
-  bottom: 0;
+  width: 65%;
 }
