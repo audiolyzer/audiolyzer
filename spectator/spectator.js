@@ -1,7 +1,7 @@
 class Spectator {
 	
 	constructor(position, rotation, seperation, moving, x, y, looking, keys) {
-		this.position = new Vector3(0.0, 0.0, 5.0);
+		this.position = new Vector3(8.0, 3.0, 16.0);
 		this.rotation = new Vector3(0.0, 0.0, 0.0);
 		this.looking = false;
 		this.zooming = false;

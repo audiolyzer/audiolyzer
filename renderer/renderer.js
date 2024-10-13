@@ -6,8 +6,9 @@ var render_distance = 64.0;
 
 class Renderer {
 	
-	constructor(entity_renderer) {
+	constructor(chunk_renderer, entity_renderer) {
 		skycolour = new Vector3(66.0/255.0, 133.0/255.0, 244.0/255.0);
+		this.chunk_renderer = new ChunkRenderer();
 		this.entity_renderer = new EntityRenderer();
 	}
 	
@@ -25,6 +26,7 @@ class Renderer {
 	
 	render(time) {
 		this.prepare();
+		this.chunk_renderer.render();
 		this.entity_renderer.render();
 	}
 }

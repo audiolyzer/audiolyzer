@@ -1,19 +1,32 @@
 class Model {
 	
-	constructor(vertices, normals, uvs, indices, texture, id, count) {
-		this.id = gl.createVertexArray();
-		gl.bindVertexArray(this.id);
+	static createEntityModel(vertices, normals, uvs, indices, texture) {
+		let id = gl.createVertexArray();
+		gl.bindVertexArray(id);
 		
-		this.createArrayBuffer(vertices, 3, 0);
+		Model.createArrayBuffer(vertices, 3, 0);
 		
-		this.createArrayBuffer(normals, 3, 1);
-		this.createArrayBuffer(uvs, 2, 2);
+		Model.createArrayBuffer(normals, 3, 1);
+		Model.createArrayBuffer(uvs, 2, 2);
 		
-		this.createElementArrayBuffer(indices);
+		Model.createElementArrayBuffer(indices);
 		
-		this.count = indices.length;
+		let count = indices.length;
 		gl.bindVertexArray(null);
-		this.texture = texture;
+		return new Vector3(id, count, Model.loadTexture(texture));
+	}
+	
+	static createChunkModel(vertices, indices) {
+		let id = gl.createVertexArray();
+		gl.bindVertexArray(id);
+		
+		Model.createArrayBuffer(vertices, 3, 0);
+		
+		Model.createElementArrayBuffer(indices);
+		
+		let count = indices.length;
+		gl.bindVertexArray(null);
+		return new Vector2(id, count);
 	}
 	
 	static loadTexture(texId) {
@@ -30,7 +43,7 @@ class Model {
 		return id;
 	}
 	
-	createArrayBuffer(data, dimensions, attrib) {
+	static createArrayBuffer(data, dimensions, attrib) {
 		var vbo = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
@@ -39,7 +52,7 @@ class Model {
 		return vbo;
 	}
 	
-	createElementArrayBuffer(data) {
+	static createElementArrayBuffer(data) {
 		var vbo = gl.createBuffer();
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vbo);
 		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(data), gl.STATIC_DRAW);
