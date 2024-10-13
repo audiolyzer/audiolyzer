@@ -1,3 +1,4 @@
+var spectator;
 var framerate;
 var canvas;
 var gl;
@@ -15,6 +16,7 @@ class Application {
 	}
 	
 	init() {
+		spectator = new Spectator();
 		this.renderer = new Renderer();
 	}
 	

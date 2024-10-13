@@ -19,7 +19,7 @@ class Renderer {
 	    gl.clearColor(skycolour.x, skycolour.y, skycolour.z, 1.0);
 	    
 	    projection = Maths.createProjectionMatrix(70.0, 0.1, render_distance);
-	    view = Maths.createViewMatrix(new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0));
+	    view = Maths.createViewMatrix(spectator.position, spectator.rotation);
 	}
 	
 	render(time) {
