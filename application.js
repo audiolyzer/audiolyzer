@@ -33,7 +33,7 @@ class Application {
 	    	this.previous = time;
 	    }
     	this.previous = time;
-    	canvas.width = window.innerWidth*0.8;
+    	canvas.width = window.innerWidth*0.75;
     	canvas.height = canvas.width*(480.0/854.0);
 		window.requestAnimationFrame((time)=>this.tick(time));
 	}
