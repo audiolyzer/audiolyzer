@@ -18,7 +18,7 @@ class Renderer {
 	    gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 	    gl.clearColor(skycolour.x, skycolour.y, skycolour.z, 1.0);
 	    
-	    projection = Maths.createProjectionMatrix(70.0, 0.1, render_distance);
+	    projection = Maths.createProjectionMatrix(canvas.width/854.0*70.0, 0.1, render_distance);
 	    view = Maths.createViewMatrix(spectator.position, spectator.rotation);
 	}
 	

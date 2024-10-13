@@ -1,11 +1,36 @@
 class Spectator {
 	
-	constructor(position, rotation, seperation, moving, x, y, looking) {
+	constructor(position, rotation, seperation, moving, x, y, looking, keys) {
 		this.position = new Vector3(0.0, 0.0, 5.0);
 		this.rotation = new Vector3(0.0, 0.0, 0.0);
 		this.looking = false;
 		this.zooming = false;
 		this.moving = false;
+		this.keys = [];
+		
+		canvas.addEventListener("mousedown", e => {
+			if(e.button == 0) {
+				document.body.requestPointerLock();
+			}
+		});
+		
+		window.addEventListener("mousemove", e => {
+			if(document.pointerLockElement) {
+				this.rotation.y += e.movementX / 15.0;
+				var pitch = this.rotation.x + e.movementY / 10.0;
+				if(pitch >= -90.0 && pitch <= 90.0) {
+					this.rotation.x = pitch;
+				}
+			}
+		});
+		
+		window.addEventListener("keydown", e => {
+		   this.keys[e.which] = true;
+		});
+
+		window.addEventListener("keyup", e => {
+		    this.keys[e.which] = false;
+		});
 		
 		canvas.addEventListener("touchmove", e => {
 			var distance = this.getSeperation(e);
@@ -47,6 +72,32 @@ class Spectator {
 			this.looking = false;
 			this.moving = false;
 		});
+	}
+	
+	tick(speed) {
+		let next = new Vector3(0.0, 0.0, 0.0);
+		if(this.keys[87]) {
+	        next.add(new Vector3(Math.sin(Maths.toRadians(this.rotation.y)), 0.0, -Math.cos(Maths.toRadians(this.rotation.y))));
+	    }
+	    if(this.keys[83]) {
+	    	next.add(new Vector3(-Math.sin(Maths.toRadians(this.rotation.y)), 0.0, Math.cos(Maths.toRadians(this.rotation.y))));
+	    }
+	    if(this.keys[65]) {
+	    	next.add(new Vector3(Math.sin(Maths.toRadians(this.rotation.y-90.0)), 0.0, -Math.cos(Maths.toRadians(this.rotation.y-90.0))));
+	    }
+	    if(this.keys[68]) {
+	    	next.add(new Vector3(-Math.sin(Maths.toRadians(this.rotation.y-90.0)), 0.0, Math.cos(Maths.toRadians(this.rotation.y-90.0))));
+	    }
+	    if(this.keys[16]) {
+	    	next.y -= 1.0;
+	    }
+		if(this.keys[32]) {
+	        next.y += 1.0;
+	    }
+		if(next.length() > 0.0) {
+			next.setLength(speed / framerate);
+			this.position.add(next);
+		}
 	}
 	
 	getRay(x, y) {

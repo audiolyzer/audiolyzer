@@ -26,12 +26,15 @@ class Application {
 		} else {
 			gl.viewport(0, 0, canvas.width, canvas.height);
 			this.renderer.render(time/1000.0);
+			spectator.tick(6.0);
 		}
 		if(this.previous != null) {
     		framerate = 1000.0 / (time - this.previous);
 	    	this.previous = time;
 	    }
     	this.previous = time;
+    	canvas.width = window.innerWidth*0.8;
+    	canvas.height = canvas.width*(480.0/854.0);
 		window.requestAnimationFrame((time)=>this.tick(time));
 	}
 	
