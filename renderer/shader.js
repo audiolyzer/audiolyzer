@@ -1,21 +1,11 @@
 class Shader {
 	
 	constructor(vsh_url, fsh_url, program) {
-		var vsh_file;
-		var fsh_file;
-		
 		var classpath = this;
 		loadTextResource(vsh_url, function(vsh) {
-			vsh_file = vsh;
-			if(vsh_file && fsh_file) {
-				classpath.construct(vsh_file, fsh_file);
-			}
-		});
-		loadTextResource(fsh_url, function(fsh) {
-			fsh_file = fsh;
-			if(vsh_file && fsh_file) {
-				classpath.construct(vsh_file, fsh_file);
-			}
+			loadTextResource(fsh_url, function(fsh) {
+//				classpath.construct(vsh, fsh);
+			});
 		});
 	}
 	
