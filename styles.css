@@ -1,9 +1,3 @@
 html {
 	font-family: "Alegreya Sans";
 }
-
-window {
-	touch-action: none;
-	height: 100%;
-	width: 100%;
-}
