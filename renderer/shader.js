@@ -4,7 +4,7 @@ class Shader {
 		var classpath = this;
 		loadTextResource(vsh_url, function(vsh) {
 			loadTextResource(fsh_url, function(fsh) {
-//				classpath.construct(vsh, fsh);
+				classpath.construct(vsh, fsh);
 			});
 		});
 	}
