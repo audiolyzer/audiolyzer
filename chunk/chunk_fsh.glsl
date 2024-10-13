@@ -15,7 +15,7 @@ void main(void){
 	vec3 unitNormal = normalize(cross(dFdx(pass_position), dFdy(pass_position)));
 	vec3 unitLightVector = normalize(toLightVector);
 	float nDotl = dot(unitNormal, unitLightVector);
-	float brightness = max(nDotl, 0.0);
+	float brightness = max(nDotl, 0.15);
 	vec3 diffuse = brightness * vec3(1.0, 1.0, 1.0);
 
 	colour = vec4(0.0, 1.0, 0.0, 1.0) * vec4(diffuse, 1.0);

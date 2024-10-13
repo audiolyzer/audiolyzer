@@ -1,8 +1,9 @@
 class EntityRenderer {
 	
-	constructor(shader, entities) {
+	constructor(shader, entities, delta) {
 		this.shader = new EntityShader();
 		this.entities = [];
+		this.delta = 0.5;
 		
 		var classpath = this;
 		loadJSONResource('assets/models/chicken.json', function(data) {
@@ -23,6 +24,13 @@ class EntityRenderer {
 		    this.shader.loadProjection(projection);
 		    this.shader.loadView(view);
 		    
+		    if(this.entities[0].rotation.y <= -90.0) {
+		    	this.delta = 0.5;
+		    }
+		    if(this.entities[0].rotation.y >= 0.0) {
+		    	this.delta = -0.5;
+		    }
+		    this.entities[0].rotation.y += this.delta;
 		    for(var i = 0; i < this.entities.length; i++) {
 		    	this.draw(this.entities[i]);
 		    }
