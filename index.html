@@ -1,11 +1,26 @@
 <html>
 	<head>
 		<title>Audiolyzer</title>
+		<link rel="stylesheet" href="main.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<canvas id="window" width="854" height="480">
-		</canvas>
-		<br />
-		<i>This is a test</i>
+		<canvas id="window" width="854" height="480"></canvas>
+
+		<script src="./maths/maths.js"></script>
+        <script src="./maths/vector3.js"></script>
+        <script src="./maths/vector4.js"></script>
+        <script src="./maths/matrix4.js"></script>
+		
+		<script src="./renderer/renderer.js"></script>
+		<script src="./application.js"></script>
+		
+		<h1>Audiolyzer</h1>
+		
+		<script>
+			new Application();
+		</script>
 	</body>
 </html>
