@@ -2,7 +2,7 @@ var skycolour;
 var projection;
 var view;
 
-var render_distance = 1000.0;
+var render_distance = 64.0;
 
 class Renderer {
 	
