@@ -2,14 +2,13 @@ var framerate;
 var canvas;
 var gl;
 
-var render_distance = 1000.0;
-
 class Application {
+	
 	constructor(renderer, previous) {
 		let application = this;
 		canvas = document.getElementById("window");
 		window.onerror = function(msg, url, line) {
-			alert("["+line+"]: "+msg);
+			console.error("["+line+"]: "+msg);
 			window.requestAnimationFrame((time)=>application.tick(time));
 		}
 		window.requestAnimationFrame((time)=>this.tick(time));

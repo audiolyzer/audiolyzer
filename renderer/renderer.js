@@ -1,11 +1,14 @@
 var skycolour;
-
 var projection;
 var view;
 
+var render_distance = 1000.0;
+
 class Renderer {
-	constructor() {
+	
+	constructor(entity_renderer) {
 		skycolour = new Vector3(66.0/255.0, 133.0/255.0, 244.0/255.0);
+		this.entity_renderer = new EntityRenderer();
 	}
 	
 	prepare() {
@@ -21,5 +24,6 @@ class Renderer {
 	
 	render(time) {
 		this.prepare();
+		this.entity_renderer.render();
 	}
 }
