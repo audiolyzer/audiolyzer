@@ -3,6 +3,16 @@ class EntityRenderer {
 	constructor(shader, entities) {
 		this.shader = new EntityShader();
 		this.entities = [];
+		
+		var classpath = this;
+		loadJSONResource('assets/models/conveyor.json', function(data) {
+			var vertices = data.meshes[0].vertices;
+			var normals = data.meshes[0].normals;
+			var uvs = data.meshes[0].texturecoords[0];
+			var indices = [].concat.apply([], data.meshes[0].faces);
+			var model = new Model(vertices, normals, uvs, indices, Model.loadTexture('texture_conveyor'));
+			classpath.entities.push(new Entity(model, new Vector3(0.0, 0.0, -5.0), new Vector3(0.0, 0.0, 0.0), new Vector3(1.0, 1.0, 1.0)));
+		});
 	}
 	
 	render() {
@@ -23,7 +33,6 @@ class EntityRenderer {
 	
 	draw(entity) {
 		if(entity.model) {
-			this.shader.loadMeshColour(new Vector4(entity.meshcolour.x, entity.meshcolour.y, entity.meshcolour.z, entity.model.textured ? -1.0 : entity.meshcolour.w));
 			this.shader.loadTransformation(Maths.createTransformationMatrix(entity.position, entity.rotation, entity.scale));
 			
 			gl.bindVertexArray(entity.model.id);

@@ -1,6 +1,6 @@
 class EntityShader extends Shader {
 	
-	constructor(transformation, projection, view, renderdistance, meshcolour, skycolour) {
+	constructor(transformation, projection, view, renderdistance, skycolour) {
 		super('entity/entity_vsh.glsl', 'entity/entity_fsh.glsl');
 	}
 	
@@ -16,17 +16,12 @@ class EntityShader extends Shader {
 		this.view = super.getUniformLocation('view');
 		
 		this.renderdistance = super.getUniformLocation('renderdistance');
-		this.meshcolour = super.getUniformLocation('meshcolour');
 		this.skycolour = super.getUniformLocation('skycolour');
 	}
 	
 	loadAtmosphere(distance, colour) {
 		super.loadFloat(this.renderdistance, distance);
 		super.loadVector3f(this.skycolour, colour);
-	}
-	
-	loadMeshColour(colour) {
-		super.loadVector4f(this.meshcolour, colour);
 	}
 	
 	loadTransformation(matrix) {

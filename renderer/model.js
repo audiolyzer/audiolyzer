@@ -1,6 +1,6 @@
 class Model {
 	
-	constructor(vertices, normals, uvs, indices, id, texture, count, textured) {
+	constructor(vertices, normals, uvs, indices, texture, id, count) {
 		this.id = gl.createVertexArray();
 		gl.bindVertexArray(this.id);
 		
@@ -13,7 +13,7 @@ class Model {
 		
 		this.count = indices.length;
 		gl.bindVertexArray(null);
-		this.textured = false;
+		this.texture = texture;
 	}
 	
 	static loadTexture(texId) {
@@ -28,11 +28,6 @@ class Model {
 		
 		gl.bindTexture(gl.TEXTURE_2D, null);
 		return id;
-	}
-	
-	setTexture(texture) {
-		this.texture = texture;
-		this.textured = true;
 	}
 	
 	createArrayBuffer(data, dimensions, attrib) {

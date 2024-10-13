@@ -2,7 +2,6 @@
 precision mediump float;
 
 in float visibility;
-in vec4 pass_meshcolour;
 
 in vec3 surfaceNormal;
 in vec3 toLightVector;
@@ -21,10 +20,6 @@ void main() {
 	vec3 diffuse = brightness * vec3(1.0, 1.0, 1.0);
 
 	colour = vec4(diffuse, 1.0);
-	if(pass_meshcolour.w < 0.0) {
-		colour *= texture(tex, out_uvs);
-	} else {
-		colour *= pass_meshcolour;
-	}
+	colour *= texture(tex, out_uvs);
 	colour = mix(colour, vec4(skycolour, 1.0), visibility);
 }

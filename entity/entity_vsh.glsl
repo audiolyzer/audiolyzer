@@ -10,10 +10,8 @@ uniform mat4 projection;
 uniform mat4 view;
 
 uniform float renderdistance;
-uniform vec4 meshcolour;
 
 out float visibility;
-out vec4 pass_meshcolour;
 
 out vec3 surfaceNormal;
 out vec3 toLightVector;
@@ -30,5 +28,4 @@ void main() {
 	out_uvs = uvs;
 
 	visibility = clamp(length(positionRelativeToCam) / renderdistance, 0.0, 1.0);
-	pass_meshcolour = meshcolour;
 }
