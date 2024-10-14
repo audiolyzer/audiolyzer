@@ -33,6 +33,10 @@ class Maths {
 		return view;
 	}
 	
+	static clamp(value, min, max) {
+		return Math.max(min, Math.min(max, value));
+	}
+	
 	static randomInt(max) {
 		return Math.floor(Math.random() * max);
 	}

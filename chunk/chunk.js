@@ -147,8 +147,9 @@ class Chunk {
 	
 	collision(next) {
 		let start = new Vector3(spectator.position.x, spectator.position.y, spectator.position.z).sub(this.celestial.origin).add(next);
-		let end = new Vector3(start.x, start.y, start.z).add(0.0, 1.8, 0.0);
-		return Collision.detectCollision(start, end, 1.0, this.vertices, this.indices);
+		let end = new Vector3(spectator.getHeightPosition().x, spectator.getHeightPosition().y, spectator.getHeightPosition().z).sub(this.celestial.origin).add(next);
+		let collision = Collision.detectCollision(start, end, 1.0, this.vertices, this.indices);
+		return collision;
 	}
 	
 	getLevel(px, py, pz) {

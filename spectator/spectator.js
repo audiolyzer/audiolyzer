@@ -1,6 +1,6 @@
 class Spectator {
 	
-	constructor(position, rotation, seperation, moving, x, y, looking, keys, next, grounded, fall, gravity) {
+	constructor(position, rotation, seperation, moving, x, y, looking, keys, next, grounded, fall, gravity, eyeheight, height, speed, jumpspeed) {
 		this.position = new Vector3(-8.0, 1020.0, -8.0);
 		this.rotation = new Vector3(0.0, 0.0, 0.0);
 		this.gravity = new Vector3(0.0, 0.0, 0.0);
@@ -10,6 +10,11 @@ class Spectator {
 		this.looking = false;
 		this.zooming = false;
 		this.moving = false;
+		
+		this.height = 2.0;
+		this.eyeheight = 1.8;
+		this.jumpspeed = 5.0;
+		this.speed = 5.0;
 		this.keys = [];
 		
 		canvas.addEventListener("mousedown", e => {
@@ -76,7 +81,7 @@ class Spectator {
 		});
 	}
 	
-	tick(speed) {
+	tick() {
 		if(this.keys[87]) {
 			this.next.add(new Vector3(Math.sin(Maths.toRadians(this.rotation.y)), 0.0, -Math.cos(Maths.toRadians(this.rotation.y))));
 	    }
@@ -89,20 +94,31 @@ class Spectator {
 	    if(this.keys[68]) {
 	    	this.next.add(new Vector3(-Math.sin(Maths.toRadians(this.rotation.y-90.0)), 0.0, Math.cos(Maths.toRadians(this.rotation.y-90.0))));
 	    }
-	    if(this.keys[16]) {
-//	    	this.next.y -= 1.0;
-	    }
-		if(this.keys[32]) {
-			this.next.add(new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials[0].origin).setLength(1.0));
-	    }
 		if(this.next.length() > 0.0) {
-			this.next.setLength(speed / framerate);
+			this.next.setLength(this.speed/framerate);
+		}
+		
+		if(this.keys[16]) {
+			this.eyeheight = 1.55;
+			this.height = 1.75;
+			this.speed = 3.0;
+		} else {
+			this.eyeheight = 1.8;
+			this.height = 2.0;
+			this.speed = 5.0;
 		}
 		
 		this.checkGravity();
+		this.next.add(this.fall);
 		this.checkCollision();
 		
-		this.next.add(this.fall);
+		if(this.keys[32]) {
+			if(this.grounded) {
+				this.fall.add(new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials[0].origin).setLength(this.jumpspeed/framerate));
+				this.grounded = false;
+			}
+		}
+		
 		this.position.add(this.next);
 		this.next = new Vector3(0.0, 0.0, 0.0);
 	}
@@ -127,11 +143,18 @@ class Spectator {
 		if(chunk) {
 			let collision = chunk.collision(this.next);
 			if(collision) {
-				if(collision.length() > 0.25) {
-					this.next.add(collision);
+				this.next.add(new Vector3(collision.x, collision.y, collision.z).multiplyScalar(45.0/framerate));
+				
+				let normal = new Vector3(collision.x, collision.y, collision.z).setLength(1.0);
+				let up = new Vector3(-this.gravity.x, -this.gravity.y, -this.gravity.z).setLength(1.0);
+				let slope = Maths.toDegrees(up.angleTo(normal));
+				
+				if(slope < 45.0) {
+					this.fall = new Vector3(0.0, 0.0, 0.0);
+					this.grounded = true;
+				} else {
+					this.grounded = false;
 				}
-				this.grounded = true;
-				this.fall = new Vector3(0.0, 0.0, 0.0);
 			} else {
 				this.grounded = false;
 			}
@@ -140,7 +163,14 @@ class Spectator {
 	
 	getEyePosition() {
 		if(this.gravity.length() > 0.0) {
-			return new Vector3(this.position.x, this.position.y, this.position.z).add(new Vector3(-this.gravity.x, -this.gravity.y, -this.gravity.z).setLength(1.8));
+			return new Vector3(this.position.x, this.position.y, this.position.z).add(new Vector3(-this.gravity.x, -this.gravity.y, -this.gravity.z).setLength(this.eyeheight));
+		}
+		return this.position;
+	}
+	
+	getHeightPosition() {
+		if(this.gravity.length() > 0.0) {
+			return new Vector3(this.position.x, this.position.y, this.position.z).add(new Vector3(-this.gravity.x, -this.gravity.y, -this.gravity.z).setLength(this.height));
 		}
 		return this.position;
 	}

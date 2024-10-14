@@ -527,7 +527,7 @@ class Vector3 {
 
 		// clamp, to handle numerical problems
 
-		return Math.acos( MathUtils.clamp( theta, - 1, 1 ) );
+		return Math.acos( Maths.clamp( theta, - 1, 1 ) );
 
 	}
 
