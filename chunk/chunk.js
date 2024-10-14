@@ -143,17 +143,23 @@ class Chunk {
 		}
 	}
 	
-	getLevel(px, py, pz) {
-		let value = py;
-		value += SimplexNoise.noise3D(new Vector3(px, py, pz), seed, amplitude, octaves, new Vector3(frequency_x, frequency_y, frequency_z));
-		return value;
-	}
-	
 	processVertex(edge0, edge1, value0, value1, px, py, pz) {
 		edge0 = new Vector3(edge0.x, edge0.y, edge0.z).sub(new Vector3(px, py, pz));
 		edge1 = new Vector3(edge1.x, edge1.y, edge1.z).sub(new Vector3(px, py, pz));
 		
 		let t = (0.0 - value0) / (value1 - value0);
 		return new Vector3(edge1.x, edge1.y, edge1.z).sub(new Vector3(edge0.x, edge0.y, edge0.z)).multiplyScalar(t).add(new Vector3(edge0.x, edge0.y, edge0.z)).add(new Vector3(px, py, pz));
+	}
+	
+	collision(next) {
+		let start = new Vector3(spectator.position.x, spectator.position.y, spectator.position.z).add(next);
+		let end = new Vector3(start.x, start.y, start.z).add(0.0, 1.8, 0.0);
+		return Collision.detectCollision(start, end, 1.0, this.vertices_array, this.indices_array);
+	}
+	
+	getLevel(px, py, pz) {
+		let value = py;
+		value += SimplexNoise.noise3D(new Vector3(px, py, pz), seed, amplitude, octaves, new Vector3(frequency_x, frequency_y, frequency_z));
+		return value;
 	}
 }

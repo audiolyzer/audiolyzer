@@ -1,8 +1,9 @@
 class Spectator {
 	
-	constructor(position, rotation, seperation, moving, x, y, looking, keys) {
+	constructor(position, rotation, seperation, moving, x, y, looking, keys, next) {
 		this.position = new Vector3(8.0, 3.0, 16.0);
 		this.rotation = new Vector3(0.0, 0.0, 0.0);
+		this.next = new Vector3(0.0, 0.0, 0.0);
 		this.looking = false;
 		this.zooming = false;
 		this.moving = false;
@@ -42,9 +43,7 @@ class Spectator {
 					var fy = (e.touches[0].pageY + e.touches[1].pageY) / 2.0;
 					var direction = this.getRay(fx, fy);
 					
-					this.position.x -= movement * direction.x * 0.02;
-					this.position.y -= movement * direction.y * 0.02;
-					this.position.z -= movement * direction.z * 0.02;
+					this.next.add(movement * direction.x * -0.02, movement * direction.y * -0.02, movement * direction.z * -0.02);
 				}
 				this.seperation = distance;
 				this.looking = false;
@@ -75,28 +74,28 @@ class Spectator {
 	}
 	
 	tick(speed) {
-		let next = new Vector3(0.0, 0.0, 0.0);
 		if(this.keys[87]) {
-	        next.add(new Vector3(Math.sin(Maths.toRadians(this.rotation.y)), 0.0, -Math.cos(Maths.toRadians(this.rotation.y))));
+			this.next.add(new Vector3(Math.sin(Maths.toRadians(this.rotation.y)), 0.0, -Math.cos(Maths.toRadians(this.rotation.y))));
 	    }
 	    if(this.keys[83]) {
-	    	next.add(new Vector3(-Math.sin(Maths.toRadians(this.rotation.y)), 0.0, Math.cos(Maths.toRadians(this.rotation.y))));
+	    	this.next.add(new Vector3(-Math.sin(Maths.toRadians(this.rotation.y)), 0.0, Math.cos(Maths.toRadians(this.rotation.y))));
 	    }
 	    if(this.keys[65]) {
-	    	next.add(new Vector3(Math.sin(Maths.toRadians(this.rotation.y-90.0)), 0.0, -Math.cos(Maths.toRadians(this.rotation.y-90.0))));
+	    	this.next.add(new Vector3(Math.sin(Maths.toRadians(this.rotation.y-90.0)), 0.0, -Math.cos(Maths.toRadians(this.rotation.y-90.0))));
 	    }
 	    if(this.keys[68]) {
-	    	next.add(new Vector3(-Math.sin(Maths.toRadians(this.rotation.y-90.0)), 0.0, Math.cos(Maths.toRadians(this.rotation.y-90.0))));
+	    	this.next.add(new Vector3(-Math.sin(Maths.toRadians(this.rotation.y-90.0)), 0.0, Math.cos(Maths.toRadians(this.rotation.y-90.0))));
 	    }
 	    if(this.keys[16]) {
-	    	next.y -= 1.0;
+	    	this.next.y -= 1.0;
 	    }
 		if(this.keys[32]) {
-	        next.y += 1.0;
+			this.next.y += 1.0;
 	    }
-		if(next.length() > 0.0) {
-			next.setLength(speed / framerate);
-			this.position.add(next);
+		if(this.next.length() > 0.0) {
+			this.next.setLength(speed / framerate);
+			this.position.add(this.next);
+			this.next = new Vector3(0.0, 0.0, 0.0);
 		}
 	}
 	
