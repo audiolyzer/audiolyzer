@@ -1,10 +1,7 @@
 class ChunkRenderer {
 	
-	constructor(shader, chunks) {
+	constructor(shader) {
 		this.shader = new ChunkShader();
-		this.chunks = [];
-		
-		this.chunks.push(new Chunk(0, 0, 0));
 	}
 	
 	render() {
@@ -15,8 +12,12 @@ class ChunkRenderer {
 		    this.shader.loadProjection(projection);
 		    this.shader.loadView(view);
 		    
-		    for(var i = 0; i < this.chunks.length; i++) {
-		    	this.draw(this.chunks[i]);
+		    let distance = 1;
+		    
+		    for(let i = 0; i < celestials.length; i++) {
+		    	for(let chunk of celestials[i].chunks.values()) {
+		    		this.draw(chunk);
+		    	}
 		    }
 			this.shader.stop();
 		}
@@ -24,7 +25,7 @@ class ChunkRenderer {
 	
 	draw(chunk) {
 		if(chunk.model) {
-			this.shader.loadTransformation(Maths.createTransformationMatrix(new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0), new Vector3(1.0, 1.0, 1.0)));
+			this.shader.loadTransformation(Maths.createTransformationMatrix(chunk.celestial.origin, chunk.celestial.rotation, new Vector3(1.0, 1.0, 1.0)));
 			
 			gl.bindVertexArray(chunk.model.x);
 			gl.enableVertexAttribArray(0);

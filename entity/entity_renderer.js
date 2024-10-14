@@ -12,7 +12,7 @@ class EntityRenderer {
 			var uvs = data.meshes[0].texturecoords[0];
 			var indices = [].concat.apply([], data.meshes[0].faces);
 			var model = Model.createEntityModel(vertices, normals, uvs, indices, 'texture_chicken');
-			classpath.entities.push(new Entity(model, new Vector3(8.0, 1.0, 8.0), new Vector3(0.0, -45.0, 0.0), new Vector3(0.5, 0.5, 0.5)));
+			classpath.entities.push(new Entity(model, new Vector3(8.0, 1001.0, 8.0), new Vector3(0.0, -45.0, 0.0), new Vector3(0.5, 0.5, 0.5)));
 		});
 	}
 	

@@ -1,27 +1,21 @@
 var chunk_size = 16;
 
-var seed = 0;
-var octaves = 1;
-var amplitude = 1.0;
-var frequency_x = 0.1;
-var frequency_y = 0.1;
-var frequency_z = 0.1;
-
 class Chunk {
 	
-	constructor(px, py, pz, x, y, z, model, vertices, indices, vertices_array, indices_array, generated) {
+	constructor(x, y, z, celestial, vertices_list, indices_list, vertices, indices, model, generated) {
+		this.celestial = celestial;
+		this.vertices_list = [];
+		this.indices_list = [];
 		this.generated = false;
-		this.vertices = [];
-		this.indices = [];
-		this.x = px;
-		this.y = py;
-		this.z = pz;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		
 		this.generate();
 	}
 	
 	initialize() {
-		this.model = Model.createChunkModel(this.vertices_array, this.indices_array);
+		this.model = Model.createChunkModel(this.vertices, this.indices);
 	}
 	
 	generate() {
@@ -33,15 +27,15 @@ class Chunk {
 				}
 			}
 		}
-		this.vertices_array = [];
-		this.indices_array = [];
-		for(let i = 0; i < this.indices.length; i++) {
-			if(i < this.vertices.length) {
-				this.vertices_array[i*3+0] = this.vertices[i].x;
-				this.vertices_array[i*3+1] = this.vertices[i].y;
-				this.vertices_array[i*3+2] = this.vertices[i].z;
+		this.vertices = [];
+		this.indices = [];
+		for(let i = 0; i < this.indices_list.length; i++) {
+			if(i < this.vertices_list.length) {
+				this.vertices[i*3+0] = this.vertices_list[i].x;
+				this.vertices[i*3+1] = this.vertices_list[i].y;
+				this.vertices[i*3+2] = this.vertices_list[i].z;
 			}
-			this.indices_array[i] = this.indices[i];
+			this.indices[i] = this.indices_list[i];
 		}
 		this.generated = true;
 	}
@@ -125,20 +119,20 @@ class Chunk {
 				let vb = this.processVertex(corners[b0], corners[b1], values[b0], values[b1], px, py, pz);
 				let vc = this.processVertex(corners[c0], corners[c1], values[c0], values[c1], px, py, pz);
 				
-				if(!this.vertices.some(v => v.equals(va))) {
-					this.vertices.push(va);
+				if(!this.vertices_list.some(v => v.equals(va))) {
+					this.vertices_list.push(va);
 				}
-				this.indices.push(this.vertices.findIndex(v => v.equals(va)));
+				this.indices_list.push(this.vertices_list.findIndex(v => v.equals(va)));
 				
-				if(!this.vertices.some(v => v.equals(vb))) {
-					this.vertices.push(vb);
+				if(!this.vertices_list.some(v => v.equals(vb))) {
+					this.vertices_list.push(vb);
 				}
-				this.indices.push(this.vertices.findIndex(v => v.equals(vb)));
+				this.indices_list.push(this.vertices_list.findIndex(v => v.equals(vb)));
 				
-				if(!this.vertices.some(v => v.equals(vc))) {
-					this.vertices.push(vc);
+				if(!this.vertices_list.some(v => v.equals(vc))) {
+					this.vertices_list.push(vc);
 				}
-				this.indices.push(this.vertices.findIndex(v => v.equals(vc)));
+				this.indices_list.push(this.vertices_list.findIndex(v => v.equals(vc)));
 			}
 		}
 	}
@@ -152,14 +146,14 @@ class Chunk {
 	}
 	
 	collision(next) {
-		let start = new Vector3(spectator.position.x, spectator.position.y, spectator.position.z).add(next);
+		let start = new Vector3(spectator.position.x, spectator.position.y, spectator.position.z).sub(this.celestial.origin).add(next);
 		let end = new Vector3(start.x, start.y, start.z).add(0.0, 1.8, 0.0);
-		return Collision.detectCollision(start, end, 1.0, this.vertices_array, this.indices_array);
+		return Collision.detectCollision(start, end, 1.0, this.vertices, this.indices);
 	}
 	
 	getLevel(px, py, pz) {
-		let value = py;
-		value += SimplexNoise.noise3D(new Vector3(px, py, pz), seed, amplitude, octaves, new Vector3(frequency_x, frequency_y, frequency_z));
+		let value = new Vector3(px, py, pz).length() - this.celestial.radius;
+		value += this.celestial.noise.generate(new Vector3(px, py, pz));
 		return value;
 	}
 }

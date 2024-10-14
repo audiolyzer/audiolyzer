@@ -1,29 +1,36 @@
 class SimplexNoise {
 
-	static noise3D(position, seed, amplitude, octaves, frequencies) {
+	constructor(seed, amplitude, octaves, frequencies) {
+		this.seed = seed;
+		this.amplitude = amplitude;
+		this.octaves = octaves;
+		this.frequencies = frequencies;
+	}
+	
+	generate(position) {
 		let noise = 0;
-		for(let i = 0; i < octaves; i++) {
-			let freqx = frequencies.x * Math.pow(2, i);
-			let freqy = frequencies.y * Math.pow(2, i);
-			let freqz = frequencies.z * Math.pow(2, i);
-			let amp = amplitude * Math.pow(0.5, i);
-			let x = freqx * (position.x + seed / 1000);
-			let y = freqy * (position.y + seed / 1000);
-			let z = freqz * (position.z + seed / 1000);
+		for(let i = 0; i < this.octaves; i++) {
+			let freqx = this.frequencies.x * Math.pow(2, i);
+			let freqy = this.frequencies.y * Math.pow(2, i);
+			let freqz = this.frequencies.z * Math.pow(2, i);
+			let amp = this.amplitude * Math.pow(0.5, i);
+			let x = freqx * (position.x + this.seed / 1000);
+			let y = freqy * (position.y + this.seed / 1000);
+			let z = freqz * (position.z + this.seed / 1000);
 			noise += this.noise(x, y, z) * amp;
 		}
 		return noise;
 	}
 
-	static fastfloor(x) {
+	fastfloor(x) {
 		return Math.floor(x);
 	}
 
-	static dot(g, ...coords) {
+	dot(g, ...coords) {
 		return coords.reduce((sum, coord, i) => sum + g[i] * coord, 0);
 	}
 
-	static noise(x, y, z) {
+	noise(x, y, z) {
 		const F3 = 1.0 / 3.0;
 		const G3 = 1.0 / 6.0;
 
@@ -72,8 +79,8 @@ class SimplexNoise {
 
 		const grad3 = [[1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0], [1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1], [0, 1, 1], [0, -1, 1], [0, 1, -1], [0, -1, -1]];
 
-		const perm = SimplexNoise.getPerm();
-		const permMod12 = SimplexNoise.getPermMod12();
+		const perm = this.getPerm();
+		const permMod12 = this.getPermMod12();
 
 		const ii = i & 255;
 		const jj = j & 255;
@@ -98,7 +105,7 @@ class SimplexNoise {
 		return 32.0 * (n0 + n1 + n2 + n3);
 	}
 
-	static getPerm() {
+	getPerm() {
 		const perm = new Array(512);
 		const p = new Uint8Array([-105, -96, -119, 91, 90, 15, -125, 13, -55, 95, 96, 53, -62, -23, 7, -31, -116, 36, 103, 30, 69, -114, 8, 99, 37, -16, 21, 10, 23, -66, 6, -108, -9, 120, -22, 75, 0, 26, -59, 62, 94, -4, -37, -53, 117, 35, 11, 32, 57, -79, 33, 88, -19, -107, 56, 87, -82, 20, 125, -120, -85, -88, 68, -81, 74, -91, 71, -122, -117, 48, 27, -90, 77, -110, -98, -25, 83, 111, -27, 122, 60, -45, -123, -26, -36, 105, 92, 41, 55, 46, -11, 40, -12, 102, -113, 54, 65, 25, 63, -95, 1, -40, 80, 73, -47, 76, -124, -69, -48, 89, 18, -87, -56, -60, -121, -126, 116, -68, -97, 86, -92, 100, 109, -58, -83, -70, 3, 64, 52, -39, -30, -6, 124, 123, 5, -54, 38, -109, 118, 126, -1, 82, 85, -44, -49, -50, 59, -29, 47, 16, 58, 17, -74, -67, 28, 42, -33, -73, -86, -43, 119, -8, -104, 2, 44, -102, -93, 70, -35, -103, 101, -101, -89, 43, -84, 9, -127, 22, 39, -3, 19, 98, 108, 110, 79, 113, -32, -24, -78, -71, 112, 104, -38, -10, 97, -28, -5, 34, -14, -63, -18, -46, -112, 12, -65, -77, -94, -15, 81, 51, -111, -21, -7, 14, -17, 107, 49, -64, -42, 31, -75, -57, 106, -99, -72, 84, -52, -80, 115, 121, 50, 45, 127, 4, -106, -2, -118, -20, -51, 93, -34, 114, 67, 29, 24, 72, -13, -115, -128, -61, 78, 66, -41, 61, -100, -76]);
 		for(let i = 0; i < 512; i++) {
@@ -107,7 +114,7 @@ class SimplexNoise {
 		return perm;
 	}
 
-	static getPermMod12() {
+	getPermMod12() {
 		const permMod12 = new Array(512);
 		const perm = this.getPerm();
 		for(let i = 0; i < 512; i++) {

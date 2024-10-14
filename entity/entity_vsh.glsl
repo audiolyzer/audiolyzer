@@ -24,7 +24,7 @@ void main() {
 	gl_Position = projection * positionRelativeToCam;
 
 	surfaceNormal = (transformation * vec4(normal, 0.0)).xyz;
-	toLightVector = vec3(250.0, 1000.0, 500.0) - worldPosition.xyz;
+	toLightVector = vec3(2500.0, 10000.0, 5000.0) - worldPosition.xyz;
 	out_uvs = uvs;
 
 	visibility = clamp(length(positionRelativeToCam) / renderdistance, 0.0, 1.0);

@@ -1,5 +1,9 @@
 class Maths {
 	
+	static getAcceleration(position, origin, mass) {
+		return new Vector3(origin.x, origin.y, origin.z).sub(position).setLength(6.67430E-11*mass/(position.distanceTo(origin)*position.distanceTo(origin)));
+	}
+	
 	static createTransformationMatrix(translation, rotation, scale) {
 		var transformation = new Matrix4().identity();
 		transformation.multiply(new Matrix4().makeTranslation(translation.x, translation.y, translation.z));
@@ -27,6 +31,10 @@ class Maths {
 		view.multiply(new Matrix4().makeRotationZ(Maths.toRadians(rotation.z)));
 		view.multiply(new Matrix4().makeTranslation(translation.x, translation.y, translation.z));
 		return view;
+	}
+	
+	static randomInt(max) {
+		return Math.floor(Math.random() * max);
 	}
 	
 	static toRadians(value) {

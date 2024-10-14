@@ -21,7 +21,7 @@ class Renderer {
 	    
 	    const fov = Maths.toDegrees(2.0 * Math.atan(Math.tan(Maths.toRadians(70.0) / 2.0) * canvas.width / canvas.height));
 	    projection = Maths.createProjectionMatrix(fov, 0.1, render_distance);
-	    view = Maths.createViewMatrix(spectator.position, spectator.rotation);
+	    view = Maths.createViewMatrix(spectator.getEyePosition(), spectator.rotation);
 	}
 	
 	render(time) {

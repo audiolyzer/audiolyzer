@@ -3,6 +3,8 @@ var framerate;
 var canvas;
 var gl;
 
+var celestials = [];
+
 class Application {
 	
 	constructor(renderer, previous) {
@@ -18,6 +20,8 @@ class Application {
 	init() {
 		spectator = new Spectator();
 		this.renderer = new Renderer();
+		
+		celestials.push(new Celestial(new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0), 3.0E15, 1000.0, new SimplexNoise(Maths.randomInt(999999999), 1.0, 1, new Vector3(0.1, 0.1, 0.1))));
 	}
 	
 	tick(time) {
