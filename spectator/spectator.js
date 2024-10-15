@@ -46,8 +46,8 @@ class Spectator {
 			if(distance >= 0) {
 				if(this.moving) {
 					var movement = (this.seperation - distance) * 0.2;
-					this.position.x += movement * Math.sin(Maths.toRadians(this.rotation.y));
-					this.position.z += movement * -Math.cos(Maths.toRadians(this.rotation.y));
+					this.position.x -= this.speed/framerate * Math.sin(Maths.toRadians(this.rotation.y));
+					this.position.z -= this.speed/framerate * -Math.cos(Maths.toRadians(this.rotation.y));
 				}
 				this.seperation = distance;
 				this.looking = false;
