@@ -1,6 +1,6 @@
 class Spectator {
 	
-	constructor(position, rotation, seperation, moving, x, y, ax, ay, looking, keys, next, addnext, grounded, fall, gravity, eyeheight, height, speed, jumpspeed) {
+	constructor(position, rotation, seperation, moving, x, y, looking, keys, next, addnext, grounded, fall, gravity, eyeheight, height, speed, jumpspeed) {
 		this.position = new Vector3(-8.0, 1020.0, -8.0);
 		this.rotation = new Vector3(0.0, 0.0, 0.0);
 		this.gravity = new Vector3(0.0, 0.0, 0.0);
@@ -43,8 +43,7 @@ class Spectator {
 		});
 		
 		canvas.addEventListener("touchstart", e => {
-			this.ax = e.touches[0].pageX;
-			this.ay = e.touches[0].pageY;
+			this.seperation = this.getSeperation(e);
 		});
 		
 		canvas.addEventListener("touchmove", e => {
@@ -55,7 +54,6 @@ class Spectator {
 					this.addnext.x += (movement > 0.0 ? -1.0 : 1.0) * Math.sin(Maths.toRadians(this.rotation.y));
 					this.addnext.z += (movement > 0.0 ? -1.0 : 1.0) * -Math.cos(Maths.toRadians(this.rotation.y));
 				}
-				this.seperation = distance;
 				this.looking = false;
 				this.moving = true;
 			} else {
@@ -197,9 +195,11 @@ class Spectator {
 	
 	getSeperation(e) {
 		if(e.touches.length > 1) {
+			var ax = e.touches[0].pageX;
+			var ay = e.touches[0].pageY;
 			var bx = e.touches[1].pageX;
 			var by = e.touches[1].pageY;
-			return Math.pow(Math.pow(this.ax-bx, 2.0) + Math.pow(this.ay-by, 2.0), 0.5);
+			return Math.pow(Math.pow(ax-bx, 2.0) + Math.pow(ay-by, 2.0), 0.5);
 		} else {
 			return -1;
 		}
