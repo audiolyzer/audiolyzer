@@ -122,15 +122,26 @@ class Spectator {
 			this.speed = 5.0;
 		}
 		
+		let position = new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials.get(0).origin);
+		
+		let px = Math.floor(this.position.x/chunk_size);
+		let py = Math.floor(this.position.y/chunk_size);
+		let pz = Math.floor(this.position.z/chunk_size);
+		let chunk = celestials.get(0).chunks.get(px+":"+py+":"+pz);
+		
 		this.checkGravity();
 		this.next.add(this.fall);
-		this.checkCollision();
+		this.checkCollision(chunk);
 		
 		if(this.keys[32]) {
 			if(this.grounded) {
 				this.fall.add(new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials.get(0).origin).setLength(this.jumpspeed/framerate));
 				this.grounded = false;
 			}
+		}
+		
+		if(chunk && !chunk.model) {
+			this.next = new Vector3(0.0, 0.0, 0.0);
 		}
 		
 		this.position.add(this.next);
@@ -147,13 +158,7 @@ class Spectator {
 		}
 	}
 	
-	checkCollision() {
-		let position = new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials.get(0).origin);
-		let px = Math.floor(this.position.x/chunk_size);
-		let py = Math.floor(this.position.y/chunk_size);
-		let pz = Math.floor(this.position.z/chunk_size);
-		let chunk = celestials.get(0).chunks.get(px+":"+py+":"+pz);
-		
+	checkCollision(chunk) {
 		if(chunk && chunk.model) {
 			let collision = chunk.collision(this.next);
 			if(collision) {
