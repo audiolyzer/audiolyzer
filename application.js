@@ -21,7 +21,7 @@ class Application {
 		spectator = new Spectator();
 		this.renderer = new Renderer();
 		
-		celestials.push(new Celestial(new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0), 3.5E15, 1000.0, new SimplexNoise(Maths.randomInt(999999999), 10.0, 1, new Vector3(0.1, 0.1, 0.1))));
+		celestials.push(new Celestial(new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0), 3.5E15, 1000.0, new SimplexNoise(Maths.randomInt(999999999), 1.0, 1, new Vector3(0.1, 0.1, 0.1))));
 	}
 	
 	tick(time) {
