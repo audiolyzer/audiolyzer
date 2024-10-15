@@ -3,11 +3,12 @@ var framerate;
 var canvas;
 var gl;
 
-var celestials = [];
+var generator;
+var celestials = new Map;
 
 class Application {
 	
-	constructor(renderer, previous) {
+	constructor(previous, renderer) {
 		let application = this;
 		canvas = document.getElementById("window");
 		window.onerror = function(msg, url, line) {
@@ -21,7 +22,14 @@ class Application {
 		spectator = new Spectator();
 		this.renderer = new Renderer();
 		
-		celestials.push(new Celestial(new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0), 3.5E15, 1000.0, new SimplexNoise(Maths.randomInt(999999999), 1.0, 1, new Vector3(0.1, 0.1, 0.1))));
+		generator = new Worker("generator/chunk_generator.js");
+		generator.postMessage([0, cornerIndexAFromEdge, cornerIndexBFromEdge, triangulation]);
+		generator.onmessage = function(event) {
+			if(event.data[0] == 2) {
+				celestials.get(event.data[1]).chunks.get(event.data[2]+":"+event.data[3]+":"+event.data[4]).initialize(event.data[5], event.data[6]);
+			}
+		};
+		celestials.set(0, new Celestial(0, new Vector3(0.0, 0.0, 0.0), new Vector3(0.0, 0.0, 0.0), 3.5E15, 1000.0, new SimplexNoise(Maths.randomInt(999999999), 1.0, 1, new Vector3(0.1, 0.1, 0.1))));
 	}
 	
 	tick(time) {

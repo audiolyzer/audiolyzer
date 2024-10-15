@@ -14,8 +14,8 @@ class ChunkRenderer {
 		    
 		    let distance = 1;
 		    
-		    for(let i = 0; i < celestials.length; i++) {
-		    	for(let chunk of celestials[i].chunks.values()) {
+		    for(let celestial of celestials.values()) {
+		    	for(let chunk of celestial.chunks.values()) {
 		    		this.draw(chunk);
 		    	}
 		    }
@@ -34,10 +34,6 @@ class ChunkRenderer {
 		    
 		    gl.disableVertexAttribArray(0);
 		    gl.bindVertexArray(null);
-		} else {
-			if(chunk.generated) {
-				chunk.initialize();
-			}
 		}
 	}
 }

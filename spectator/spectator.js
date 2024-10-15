@@ -50,7 +50,7 @@ class Spectator {
 			let delta = now - this.start;
 			if((delta < 300) && (delta > 0)) {
 				if(this.grounded) {
-					this.fall.add(new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials[0].origin).setLength(this.jumpspeed/framerate));
+					this.fall.add(new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials.get(0).origin).setLength(this.jumpspeed/framerate));
 					this.grounded = false;
 				}
 			}
@@ -128,7 +128,7 @@ class Spectator {
 		
 		if(this.keys[32]) {
 			if(this.grounded) {
-				this.fall.add(new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials[0].origin).setLength(this.jumpspeed/framerate));
+				this.fall.add(new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials.get(0).origin).setLength(this.jumpspeed/framerate));
 				this.grounded = false;
 			}
 		}
@@ -139,7 +139,7 @@ class Spectator {
 	
 	checkGravity() {
 		if(!this.grounded) {
-			this.gravity = Maths.getAcceleration(this.position, celestials[0].origin, celestials[0].mass);
+			this.gravity = Maths.getAcceleration(this.position, celestials.get(0).origin, celestials.get(0).mass);
 			let delta = new Vector3(this.gravity.x, this.gravity.y, this.gravity.z).divideScalar(framerate);
 			if(delta.length() > 0.0) {
 				this.fall.add(new Vector3(this.gravity.x, this.gravity.y, this.gravity.z).divideScalar(framerate));
@@ -148,13 +148,13 @@ class Spectator {
 	}
 	
 	checkCollision() {
-		let position = new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials[0].origin);
+		let position = new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials.get(0).origin);
 		let px = Math.floor(this.position.x/chunk_size);
 		let py = Math.floor(this.position.y/chunk_size);
 		let pz = Math.floor(this.position.z/chunk_size);
-		let chunk = celestials[0].chunks.get(px+":"+py+":"+pz);
+		let chunk = celestials.get(0).chunks.get(px+":"+py+":"+pz);
 		
-		if(chunk) {
+		if(chunk && chunk.model) {
 			let collision = chunk.collision(this.next);
 			if(collision) {
 				this.next.add(new Vector3(collision.x, collision.y, collision.z).multiplyScalar(45.0/framerate));
