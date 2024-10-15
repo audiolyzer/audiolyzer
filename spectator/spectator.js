@@ -57,8 +57,8 @@ class Spectator {
 				if(this.looking) {
 					var dx = e.touches[0].pageX - this.x;
 					var dy = e.touches[0].pageY - this.y;
-					this.rotation.y += dx * 0.2;
-					this.rotation.x += dy * 0.2;
+					this.rotation.y += dx * 0.25;
+					this.rotation.x += dy * 0.25;
 					if(this.rotation.x > 90.0) {
 						this.rotation.x = 90.0;
 					} else if(this.rotation.x < -90.0) {
