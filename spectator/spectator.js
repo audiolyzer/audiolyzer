@@ -51,7 +51,7 @@ class Spectator {
 					var fy = (e.touches[0].pageY + e.touches[1].pageY) / 2.0;
 					var direction = this.getRay(fx, fy);
 					
-					this.next.add(movement * direction.x * -0.02, movement * direction.y * -0.02, movement * direction.z * -0.02);
+					this.next.add(movement * direction.x * -0.02 / framerate, movement * direction.y * -0.02 / framerate, movement * direction.z * -0.02 / framerate);
 				}
 				this.seperation = distance;
 				this.looking = false;
