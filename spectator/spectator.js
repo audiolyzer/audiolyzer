@@ -1,9 +1,10 @@
 class Spectator {
 	
-	constructor(position, rotation, seperation, moving, x, y, looking, keys, next, grounded, fall, gravity, eyeheight, height, speed, jumpspeed) {
+	constructor(position, rotation, seperation, moving, x, y, looking, keys, next, addnext, grounded, fall, gravity, eyeheight, height, speed, jumpspeed) {
 		this.position = new Vector3(-8.0, 1020.0, -8.0);
 		this.rotation = new Vector3(0.0, 0.0, 0.0);
 		this.gravity = new Vector3(0.0, 0.0, 0.0);
+		this.addnext = new Vector3(0.0, 0.0, 0.0);
 		this.fall = new Vector3(0.0, 0.0, 0.0);
 		this.next = new Vector3(0.0, 0.0, 0.0);
 		this.grounded = false;
@@ -46,8 +47,8 @@ class Spectator {
 			if(distance >= 0) {
 				if(this.moving) {
 					var movement = this.seperation - distance;
-					this.position.x += (movement > 0.0 ? 1.0 : -1.0) * this.speed/framerate * Math.sin(Maths.toRadians(this.rotation.y));
-					this.position.z += (movement > 0.0 ? 1.0 : -1.0) * this.speed/framerate * -Math.cos(Maths.toRadians(this.rotation.y));
+					this.addnext.x += (movement > 0.0 ? -1.0 : 1.0) * Math.sin(Maths.toRadians(this.rotation.y));
+					this.addnext.z += (movement > 0.0 ? -1.0 : 1.0) * -Math.cos(Maths.toRadians(this.rotation.y));
 				}
 				this.seperation = distance;
 				this.looking = false;
@@ -90,6 +91,9 @@ class Spectator {
 	    if(this.keys[68]) {
 	    	this.next.add(new Vector3(-Math.sin(Maths.toRadians(this.rotation.y-90.0)), 0.0, Math.cos(Maths.toRadians(this.rotation.y-90.0))));
 	    }
+	    this.next.add(this.addnext);
+	    this.addnext = new Vector3(0.0, 0.0, 0.0);
+	    
 		if(this.next.length() > 0.0) {
 			this.next.setLength(this.speed/framerate);
 		}
