@@ -45,15 +45,9 @@ class Spectator {
 			var distance = this.getSeperation(e);
 			if(distance >= 0) {
 				if(this.moving) {
-					var movement = this.seperation - distance;
-					
-					var fx = (e.touches[0].pageX + e.touches[1].pageX) / 2.0;
-					var fy = (e.touches[0].pageY + e.touches[1].pageY) / 2.0;
-					var direction = this.getRay(fx, fy);
-					
-					this.position.x -= movement * direction.x * 0.02;
-					this.position.y -= movement * direction.y * 0.02;
-					this.position.z -= movement * direction.z * 0.02;
+					var movement = (this.seperation - distance) * 0.2;
+					this.position.x += movement * Math.sin(Maths.toRadians(this.rotation.y));
+					this.position.z += movement * -Math.cos(Maths.toRadians(this.rotation.y));
 				}
 				this.seperation = distance;
 				this.looking = false;
