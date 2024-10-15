@@ -141,6 +141,7 @@ class Spectator {
 		}
 		
 		if(chunk && !chunk.model) {
+			this.fall = new Vector3(0.0, 0.0, 0.0);
 			this.next = new Vector3(0.0, 0.0, 0.0);
 		}
 		
