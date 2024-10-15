@@ -1,6 +1,6 @@
 class Spectator {
 	
-	constructor(position, rotation, seperation, moving, x, y, looking, keys, next, addnext, grounded, fall, gravity, eyeheight, height, speed, jumpspeed) {
+	constructor(position, rotation, seperation, moving, x, y, start, looking, keys, next, addnext, grounded, fall, gravity, eyeheight, height, speed, jumpspeed) {
 		this.position = new Vector3(-8.0, 1020.0, -8.0);
 		this.rotation = new Vector3(0.0, 0.0, 0.0);
 		this.gravity = new Vector3(0.0, 0.0, 0.0);
@@ -11,6 +11,7 @@ class Spectator {
 		this.looking = false;
 		this.zooming = false;
 		this.moving = false;
+		this.start = 0.0;
 		
 		this.height = 2.0;
 		this.eyeheight = 1.8;
@@ -44,6 +45,16 @@ class Spectator {
 		
 		canvas.addEventListener("touchstart", e => {
 			this.seperation = this.getSeperation(e);
+			
+			let now = new Date().getTime();
+			let delta = now - this.start;
+			if((delta < 300) && (delta > 0)) {
+				if(this.grounded) {
+					this.fall.add(new Vector3(this.position.x, this.position.y, this.position.z).sub(celestials[0].origin).setLength(this.jumpspeed/framerate));
+					this.grounded = false;
+				}
+			}
+			this.start = now;
 		});
 		
 		canvas.addEventListener("touchmove", e => {
