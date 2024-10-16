@@ -1,4 +1,4 @@
-importScripts("../maths/vector3.js", "../util/simplex_noise.js");
+importScripts("../maths/vector3.js", "../generator/simplex_noise.js");
 
 var cornerIndexAFromEdge
 var cornerIndexBFromEdge

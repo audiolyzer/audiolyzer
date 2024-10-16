@@ -4,16 +4,6 @@ class EntityRenderer {
 		this.shader = new EntityShader();
 		this.entities = [];
 		this.delta = 0.5;
-		
-		var classpath = this;
-		loadJSONResource('assets/models/chicken.json', function(data) {
-			var vertices = data.meshes[0].vertices;
-			var normals = data.meshes[0].normals;
-			var uvs = data.meshes[0].texturecoords[0];
-			var indices = [].concat.apply([], data.meshes[0].faces);
-			var model = Model.createEntityModel(vertices, normals, uvs, indices, 'texture_chicken');
-			classpath.entities.push(new Entity(model, new Vector3(8.0, 1001.0, 8.0), new Vector3(0.0, -45.0, 0.0), new Vector3(0.5, 0.5, 0.5)));
-		});
 	}
 	
 	render() {
@@ -24,13 +14,6 @@ class EntityRenderer {
 		    this.shader.loadProjection(projection);
 		    this.shader.loadView(view);
 		    
-		    if(this.entities[0].rotation.y <= -90.0) {
-		    	this.delta = 0.5;
-		    }
-		    if(this.entities[0].rotation.y >= 0.0) {
-		    	this.delta = -0.5;
-		    }
-		    this.entities[0].rotation.y += this.delta;
 		    for(var i = 0; i < this.entities.length; i++) {
 		    	this.draw(this.entities[i]);
 		    }

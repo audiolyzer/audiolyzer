@@ -12,10 +12,13 @@ class ChunkRenderer {
 		    this.shader.loadProjection(projection);
 		    this.shader.loadView(view);
 		    
-		    let distance = 1;
-		    
 		    for(let celestial of celestials.values()) {
-		    	for(let chunk of celestial.chunks.values()) {
+		    	for(let [key, chunk] of celestial.chunks) {
+		    		if(Math.abs(chunk.x-spectator.px) > spectator.renderdistance || Math.abs(chunk.y-spectator.py) > spectator.renderdistance || Math.abs(chunk.z-spectator.pz) > spectator.renderdistance) {
+		    			if(chunk && chunk.model) {
+		    				celestial.chunks.delete(key);
+		    			}
+		    		}
 		    		this.draw(chunk);
 		    	}
 		    }
